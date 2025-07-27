@@ -1,0 +1,55 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Github Repositories\\Forge-Forage\\Forge \u0026 Forage\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{11098065-0A34-40E8-8DF8-186899C80034}|Forge \u0026 Forage\\Forge_and_Forage.csproj|d:\\github repositories\\forge-forage\\forge \u0026 forage\\forge \u0026 forage\\xuic_nutritionstatbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{11098065-0A34-40E8-8DF8-186899C80034}|Forge \u0026 Forage\\Forge_and_Forage.csproj|solutionrelative:forge \u0026 forage\\xuic_nutritionstatbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|Forge_and_Forage||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{11098065-0A34-40E8-8DF8-186899C80034}|Forge \u0026 Forage\\Forge_and_Forage.csproj|d:\\github repositories\\forge-forage\\forge \u0026 forage\\forge \u0026 forage\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|a54ad834-9219-4aa6-b589-607af21c3e26"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "XUiC_NutritionStatBar.cs",
+              "DocumentMoniker": "D:\\Github Repositories\\Forge-Forage\\Forge \u0026 Forage\\Forge \u0026 Forage\\XUiC_NutritionStatBar.cs",
+              "RelativeDocumentMoniker": "Forge \u0026 Forage\\XUiC_NutritionStatBar.cs",
+              "ToolTip": "D:\\Github Repositories\\Forge-Forage\\Forge \u0026 Forage\\Forge \u0026 Forage\\XUiC_NutritionStatBar.cs*",
+              "RelativeToolTip": "Forge \u0026 Forage\\XUiC_NutritionStatBar.cs*",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAAABQAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-27T19:10:05.343Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Forge_and_Forage",
+              "DocumentMoniker": "D:\\Github Repositories\\Forge-Forage\\Forge \u0026 Forage\\Forge \u0026 Forage\\Forge_and_Forage.csproj",
+              "RelativeDocumentMoniker": "Forge \u0026 Forage\\Forge_and_Forage.csproj",
+              "ToolTip": "D:\\Github Repositories\\Forge-Forage\\Forge \u0026 Forage\\Forge \u0026 Forage\\Forge_and_Forage.csproj",
+              "RelativeToolTip": "Forge \u0026 Forage\\Forge_and_Forage.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-07-27T19:01:09.139Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

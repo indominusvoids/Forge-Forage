@@ -8,17 +8,9 @@ namespace NutritionUI
         private EntityPlayerLocal player;
         private float nextUpdateTime;
 
-        // Max values for delta calculations (fallback if no cvar found)
-        private const int MAX_PROTEIN = 100;
-        private const int MAX_CARBS = 100;
-        private const int MAX_FAT = 100;
-        private const int MAX_DIET = 100;
-
-        private readonly CachedStringFormatter<int> intFormatter =
-            new CachedStringFormatter<int>(i => i.ToString());
-
-        private readonly CachedStringFormatter<float> fillFormatter =
-            new CachedStringFormatter<float>(f => f.ToString("F2"));
+        // Formatters
+        private readonly CachedStringFormatter<int> intFormatter = new CachedStringFormatter<int>(i => i.ToString());
+        private readonly CachedStringFormatter<float> fillFormatter = new CachedStringFormatter<float>(f => f.ToString("F2"));
 
         public override void Init()
         {
@@ -50,154 +42,95 @@ namespace NutritionUI
                 return base.GetBindingValue(ref value, bindingName);
             }
 
-            var buffs = player.Buffs;
+            // Raw stat bindings
+            if (bindingName == "playerprotein") return BindInt(ref value, player, "ProteinRaw");
+            if (bindingName == "playercarbs") return BindInt(ref value, player, "CarbsRaw");
+            if (bindingName == "playerfat") return BindInt(ref value, player, "FatRaw");
+            if (bindingName == "playerdiet") return BindInt(ref value, player, "DietRaw");
 
-            switch (bindingName)
+            // Fill bar bindings
+            if (bindingName == "playerproteinfill") return BindFill(ref value, player, "DisplayProteinNutrition");
+            if (bindingName == "playercarbsfill") return BindFill(ref value, player, "DisplayCarbsNutrition");
+            if (bindingName == "playerfatfill") return BindFill(ref value, player, "DisplayFatNutrition");
+            if (bindingName == "playerdietfill") return BindFill(ref value, player, "DisplayDietNutrition");
+
+            // Delta bindings
+            if (bindingName == "playerproteinchange") return BindDelta(ref value, player, "ProteinRaw", "DisplayProteinNutritionMax");
+            if (bindingName == "playercarbschange") return BindDelta(ref value, player, "CarbsRaw", "DisplayCarbsNutritionMax");
+            if (bindingName == "playerfatchange") return BindDelta(ref value, player, "FatRaw", "DisplayFatNutritionMax");
+            if (bindingName == "playerdietchange") return BindDelta(ref value, player, "DietRaw", "DisplayDietNutritionMax");
+
+            return base.GetBindingValue(ref value, bindingName);
+        }
+
+        // --- Helper Methods ---
+
+        private bool BindInt(ref string value, EntityPlayerLocal player, string varName)
+        {
+            value = intFormatter.Format((int)player.Buffs.GetCustomVar(varName));
+            return true;
+        }
+
+        private bool BindFill(ref string value, EntityPlayerLocal player, string varName)
+        {
+            value = fillFormatter.Format(Mathf.Clamp01(player.Buffs.GetCustomVar(varName)));
+            return true;
+        }
+
+        private bool BindDelta(ref string value, EntityPlayerLocal localPlayer, string rawVar, string maxVar, string healingVar = "", PassiveEffects blockageEffect = PassiveEffects.None)
+        {
+            try
             {
-                // Raw values
-                case "playerprotein":
-                    value = intFormatter.Format((int)buffs.GetCustomVar("ProteinRaw"));
+                if (localPlayer == null)
+                {
+                    value = "-";
                     return true;
+                }
 
-                case "playercarbs":
-                    value = intFormatter.Format((int)buffs.GetCustomVar("CarbsRaw"));
-                    return true;
+                var buffs = localPlayer.Buffs;
+                float raw = buffs.GetCustomVar(rawVar);
+                float max = buffs.GetCustomVar(maxVar);
+                float healingAmount = !string.IsNullOrEmpty(healingVar) ? buffs.GetCustomVar(healingVar) : 0f;
+                float blockage = 0f;
 
-                case "playerfat":
-                    value = intFormatter.Format((int)buffs.GetCustomVar("FatRaw"));
-                    return true;
+                if (blockageEffect != PassiveEffects.None)
+                {
+                    blockage = EffectManager.GetValue(
+                        blockageEffect, null, 0f, localPlayer,
+                        null, default(FastTags<TagGroup.Global>),
+                        calcEquipment: true, calcHoldingItem: true,
+                        calcProgression: true, calcBuffs: true,
+                        calcChallenges: true, 1, useMods: true, _useDurability: true
+                    );
+                }
 
-                case "playerdiet":
-                    value = intFormatter.Format((int)buffs.GetCustomVar("DietRaw"));
-                    return true;
+                int delta = (int)((double)(raw - max + healingAmount + blockage) - 0.9);
 
-                // Fill values (0–1)
-                case "playerproteinfill":
-                    value = fillFormatter.Format(Mathf.Clamp01(buffs.GetCustomVar("DisplayProteinNutrition")));
-                    return true;
+                if (delta == 0)
+                {
+                    value = " ";
+                }
+                else
+                {
+                    string sign = delta > 0 ? "+" : "";
+                    value = $"({sign}{delta})";
+                }
 
-                case "playercarbsfill":
-                    value = fillFormatter.Format(Mathf.Clamp01(buffs.GetCustomVar("DisplayCarbsNutrition")));
-                    return true;
-
-                case "playerfatfill":
-                    value = fillFormatter.Format(Mathf.Clamp01(buffs.GetCustomVar("DisplayFatNutrition")));
-                    return true;
-
-                case "playerdietfill":
-                    value = fillFormatter.Format(Mathf.Clamp01(buffs.GetCustomVar("DisplayDietNutrition")));
-                    return true;
-
-                // Delta calculations
-                case "playerproteinchange":
-                    if (player != null)
-                    {
-                        int num = (int)((double)((float)player.Buffs.GetCustomVar("ProteinRaw") - (float)player.Buffs.GetCustomVar("DisplayProteinNutritionMax")) - 0.5);
-                        if (num == 0)
-                        {
-                            value = " ";
-                        }
-                        else
-                        {
-                            string text = "";
-                            if (num > 0)
-                            {
-                                text = "+";
-                            }
-                            value = "(" + text + num + ")";
-                        }
-                    }
-                    else
-                    {
-                        value = "-";
-                    }
-                    return true;
-
-                case "playercarbschange":
-                    if (player != null)
-                    {
-                        int num = (int)((double)((float)player.Buffs.GetCustomVar("CarbsRaw") - (float)player.Buffs.GetCustomVar("DisplayCarbsNutritionMax")) - 0.5);
-                        if (num == 0)
-                        {
-                            value = " ";
-                        }
-                        else
-                        {
-                            string text = "";
-                            if (num > 0)
-                            {
-                                text = "+";
-                            }
-                            value = "(" + text + num + ")";
-                        }
-                    }
-                    else
-                    {
-                        value = "-";
-                    }
-                    return true;
-
-                case "playerfatchange":
-                    if (player != null)
-                    {
-                        int num = (int)((double)((float)player.Buffs.GetCustomVar("FatRaw") - (float)player.Buffs.GetCustomVar("DisplayFatNutritionMax")) - 0.5);
-                        if (num == 0)
-                        {
-                            value = " ";
-                        }
-                        else
-                        {
-                            string text = "";
-                            if (num > 0)
-                            {
-                                text = "+";
-                            }
-                            value = "(" + text + num + ")";
-                        }
-                    }
-                    else
-                    {
-                        value = "-";
-                    }
-                    return true;
-
-                case "playerdietchange":
-                    if (player != null)
-                    {
-                        int num = (int)((double)((float)player.Buffs.GetCustomVar("DietRaw") - (float)player.Buffs.GetCustomVar("DisplayDietNutritionMax")) - 0.5);
-                        if (num == 0)
-                        {
-                            value = " ";
-                        }
-                        else
-                        {
-                            string text = "";
-                            if (num > 0)
-                            {
-                                text = "+";
-                            }
-                            value = "(" + text + num + ")";
-                        }
-                    }
-                    else
-                    {
-                        value = "-";
-                    }
-                    return true;
-
-
-                default:
-                    return base.GetBindingValue(ref value, bindingName);
+                return true;
+            }
+            catch
+            {
+                value = "-";
+                return true;
             }
         }
 
         private static bool IsNutritionBinding(string name)
         {
-            return
-                name.StartsWith("playerprotein", StringComparison.OrdinalIgnoreCase)
-             || name.StartsWith("playercarbs", StringComparison.OrdinalIgnoreCase)
-             || name.StartsWith("playerfat", StringComparison.OrdinalIgnoreCase)
-             || name.StartsWith("playerdiet", StringComparison.OrdinalIgnoreCase);
+            return name.StartsWith("playerprotein", StringComparison.OrdinalIgnoreCase)
+                || name.StartsWith("playercarbs", StringComparison.OrdinalIgnoreCase)
+                || name.StartsWith("playerfat", StringComparison.OrdinalIgnoreCase)
+                || name.StartsWith("playerdiet", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>portable</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>D:\SteamLibrary\steamapps\common\7 Days To Die\Mods\Forge_&amp;_Forage\</OutputPath>
+    <OutputPath>.\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -75,6 +75,34 @@
   <ItemGroup>
     <Compile Include="XUiC_NutritionStatBar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\buffs.xml" />
+    <Content Include="Config\entityclasses.xml" />
+    <Content Include="Config\items.xml" />
+    <Content Include="Config\item_modifiers.xml" />
+    <Content Include="Config\Localization.txt" />
+    <Content Include="Config\progression.xml" />
+    <Content Include="Config\recipes.xml" />
+    <Content Include="Config\XUi\controller.xml" />
+    <Content Include="Config\XUi\windows.xml" />
+    <Content Include="Config\XUi\xui.xml" />
+    <Content Include="Config\XUi_Common\controls.xml" />
+    <Content Include="Config\XUi_Common\styles.xml" />
+    <Content Include="Forge_and_Forage.dll" />
+    <Content Include="Forge_and_Forage.pdb" />
+    <Content Include="ModInfo.xml" />
+    <Content Include="UIAtlases\ItemIconAtlas\modScavengersBeltUpgrade1.png" />
+    <Content Include="UIAtlases\ItemIconAtlas\modScavengersBeltUpgrade2.png" />
+    <Content Include="UIAtlases\ItemIconAtlas\modScavengersBeltUpgrade3.png" />
+    <Content Include="UIAtlases\UIAtlas\ui_game_stat_carbs_icon.png" />
+    <Content Include="UIAtlases\UIAtlas\ui_game_stat_diet_icon.png" />
+    <Content Include="UIAtlases\UIAtlas\ui_game_stat_fat_icon.png" />
+    <Content Include="UIAtlases\UIAtlas\ui_game_stat_protein_icon.png" />
+    <Content Include="UIAtlases\UIAtlas\ui_statbar_bg.png" />
+    <Content Include="UIAtlases\UIAtlas\ui_statbar_bg2.png" />
+    <Content Include="UIAtlases\UIAtlas\ui_statbar_bg_shadow2.png" />
+    <Content Include="ZZZxSteel-UI.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

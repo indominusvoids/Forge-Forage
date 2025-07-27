@@ -1,40 +1,4 @@
 <configs>
-	<remove xpath="//window[@name='windowToolbelt']"/>
-	<insertBefore xpath="//window[@name='CharacterFrameWindow']">
-		<window name="windowToolbelt" depth="2" width="1090" height="143" anchor="CenterBottom" pos="-545, 141" controller="ToolbeltWindow" visible="{toolbeltvisible}" cursor_area="true">
-			<rect pos="43,-27" controller="Toolbelt">
-				<grid depth="10" name="toolbeltSlots" rows="1" cols="12" pos="-5,0" cell_width="85" cell_height="83" repeat_content="false">
-					<item_stack name="A0"/>
-					<item_stack name="A1"/>
-					<item_stack name="A2"/>
-					<item_stack name="A3"/>
-					<item_stack name="A4"/>
-					<rect name="B0" depth="0" height="83" width="85"/>
-					<rect name="B1" depth="0" height="83" width="85"/>
-					<item_stack name="C0"/>
-					<item_stack name="C1"/>
-					<item_stack name="C2"/>
-					<item_stack name="C3"/>
-					<item_stack name="C4"/>
-				</grid>
-				<grid depth="10" name="inventory2" rows="1" cols="12" pos="-5,86" cell_width="85" cell_height="83" repeat_content="false" visible="{secondrow}">
-					<item_stack name="A0"/>
-					<item_stack name="A1"/>
-					<item_stack name="A2"/>
-					<item_stack name="A3"/>
-					<item_stack name="A4"/>
-					<rect name="B0" depth="0" height="83" width="85"/>
-					<rect name="B1" depth="0" height="83" width="85"/>
-					<item_stack name="C0"/>
-					<item_stack name="C1"/>
-					<item_stack name="C2"/>
-					<item_stack name="C3"/>
-					<item_stack name="C4"/>
-				</grid>
-			</rect>
-		</window>
-	</insertBefore>
-
 	<remove xpath="//window[@name='HUDLeftStatBars']"/>
 	<append xpath="/windows">
 		<window name="HUDLeftStatBars" pos="0,-27" anchor="LeftBottom">
@@ -43,7 +7,7 @@
 					<!-- Protein -->
 					<rect height="30" controller="NutritionUI.XUiC_NutritionStatBar, Forge_and_Forage">
 						<sprite depth="5" name="BarBg" style="style_statbar_bg1" sprite="ui_statbar_bg"/>
-						<filledsprite depth="5" name="BarContent" color="143,56,139,255" sprite="ui_statbar_bg" type="filled" fill="{playerproteinfill}" />
+						<filledsprite depth="5" name="BarContent" color="143,56,139,255" sprite="ui_statbar_bg" type="filled" fill="{playerproteinfill}"/>
 						<sprite depth="6" name="BarBgShadow" style="style_statbar_shadow"/>
 						<sprite depth="6" name="Icon" sprite="ui_game_stat_protein_icon" size="22,22" pos="20,-14" pivot="center" globalopacity="true" globalopacitymod="1"/>
 						<label depth="7" name="TextContent" style="style_label_normal, style_label_statbar1" pivot="left" text="{playerprotein}"/>
