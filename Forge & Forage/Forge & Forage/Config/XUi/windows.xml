@@ -1,5 +1,4 @@
 <configs>
-	<!--
 	<remove xpath="//window[@name='windowToolbelt']"/>
 	<insertBefore xpath="//window[@name='CharacterFrameWindow']">
 		<window name="windowToolbelt" depth="2" width="1090" height="143" anchor="CenterBottom" pos="-545, 141" controller="ToolbeltWindow" visible="{toolbeltvisible}" cursor_area="true">
@@ -35,7 +34,7 @@
 			</rect>
 		</window>
 	</insertBefore>
-	-->
+
 	<remove xpath="//window[@name='HUDLeftStatBars']"/>
 	<append xpath="/windows">
 		<window name="HUDLeftStatBars" pos="0,-27" anchor="LeftBottom">
