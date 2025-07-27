@@ -1,0 +1,13 @@
+<xml>
+	<append xpath="//perks">
+		<perk name="perkSurvivalCrafting" max_level="4" parent="skillGeneralPerks" name_key="perkSurvivalCrafting" desc_key="perkSurvivalCraftingDesc" icon="" override_cost="1,2,2,3">
+			<requirement name="playerLevel" operation="GTE" value="5"/>
+			
+			<effect_group>
+				<effect_description level="1" desc_key="perkSurvivalCraftingRank1Desc" long_desc_key="perkSurvivalCraftingRank1LongDesc"/>
+				<effect_description level="2" desc_key="perkSurvivalCraftingRank2Desc" long_desc_key="perkSurvivalCraftingRank2LongDesc"/>
+				<effect_description level="3" desc_key="perkSurvivalCraftingRank3Desc" long_desc_key="perkSurvivalCraftingRank3LongDesc"/>
+			</effect_group>
+		</perk>
+	</append>
+</xml>

@@ -1,0 +1,12 @@
+Key,File,Type,UsedInMainMenu,NoTranslate,english,Context / Alternate Text,german,latam,french,italian,japanese,koreana,polish,brazilian,russian,turkish,schinese,tchinese,spanish
+
+perkSurvivalCraftingDesc,progression,perk Per,,,"Learn to craft survival items like teas, salves, and resin glue.",,,,,,,,,,,,,,
+perkSurvivalCrafting,progression,perk Per,,,"Survival Crafting",,,,,,,,,,,,,,
+
+perkSurvivalCraftingRank1Desc,progression,perk Per,,,"Basic survival recipes.",,,,,,,,,,,,,,
+perkSurvivalCraftingRank2Desc,progression,perk Per,,,"Improved healing recipes.",,,,,,,,,,,,,,
+perkSurvivalCraftingRank3Desc,progression,perk Per,,,"Advanced crafting components.",,,,,,,,,,,,,,
+
+perkSurvivalCraftingRank1LongDesc,progression,perk Per,,,"Unlock the abilities to craft basic survival items such as Forager's Tea and Cactus Brew. This perk is essential for early-game survival.",,,,,,,,,,,,,,
+perkSurvivalCraftingRank2LongDesc,progression,perk Per,,,"Unlock recipes like Herb Salve for healing. Improve your survivability with these important remedies.",,,,,,,,,,,,,,
+perkSurvivalCraftingRank3LongDesc,progression,perk Per,,,"Gain access to advanced crafting materials such as Pine Resin Glue. This lets you create stronger and more durable equipment.",,,,,,,,,,,,,,

@@ -1,0 +1,42 @@
+<xml>
+	<append xpath="/item_modifiers">
+		<item_modifier name="modScavengersBeltUpgrade1" installable_tags="armorChest,armorLegs" modifier_tags="Belt" blocked_tags="noMods" type="attachment">
+			<property name="Extends" value="modGeneralMaster" param1="CustomIcon"/>
+			<property name="UnlockedBy" value="modScavengersBeltUpgrade1Schematic"/>
+			<property name="TraderStageTemplate" value="modsTier1"/>
+			<property name="Material" value="Mplastics"/>
+			
+			<effect_group tiered="false">
+				<requirement name="IsEquipped"/>
+				<triggered_effect trigger="onSelfEquipStart" action="AddBuff" buff="buffTB1stUpgrade"/>
+				<triggered_effect trigger="onSelfEquipStop" action="RemoveBuff" buff="buffTB1stUpgrade"/>
+			</effect_group>
+		</item_modifier>
+		
+		<item_modifier name="modScavengersBeltUpgrade2" installable_tags="armorChest,armorLegs" modifier_tags="Belt" blocked_tags="noMods" type="attachment">
+			<property name="Extends" value="modGeneralMaster" param1="CustomIcon"/>
+			<property name="UnlockedBy" value="modScavengersBeltUpgrade2Schematic"/>
+			<property name="TraderStageTemplate" value="modsTier2"/>
+			<property name="Material" value="Mplastics"/>
+			
+			<effect_group tiered="false">
+				<requirement name="IsEquipped"/>
+				<triggered_effect trigger="onSelfEquipStart" action="AddBuff" buff="buffTB2ndUpgrade"/>
+				<triggered_effect trigger="onSelfEquipStop" action="RemoveBuff" buff="buffTB2ndUpgrade"/>
+			</effect_group>
+		</item_modifier>
+		
+		<item_modifier name="modScavengersBeltUpgrade3" installable_tags="armorChest,armorLegs" modifier_tags="Belt" blocked_tags="noMods" type="attachment">
+			<property name="Extends" value="modGeneralMaster" param1="CustomIcon"/>
+			<property name="UnlockedBy" value="modScavengersBeltUpgrade3Schematic"/>
+			<property name="TraderStageTemplate" value="modsTier3"/>
+			<property name="Material" value="Mplastics"/>
+
+			<effect_group tiered="false">
+				<requirement name="IsEquipped"/>
+				<triggered_effect trigger="onSelfEquipStart" action="AddBuff" buff="buffTB3rdUpgrade"/>
+				<triggered_effect trigger="onSelfEquipStop" action="RemoveBuff" buff="buffTB3rdUpgrade"/>
+			</effect_group>
+		</item_modifier>
+	</append>
+</xml>

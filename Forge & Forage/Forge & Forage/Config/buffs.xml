@@ -1,0 +1,249 @@
+<configs>
+	<insertAfter xpath="/buffs/buff[@name='god']/effect_group/passive_effect[@name='GeneralDamageResist']">
+		<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="ProteinRaw" operation="set" value="100"/>
+		<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="CarbsRaw" operation="set" value="100"/>
+		<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="FatRaw" operation="set" value="100"/>
+		<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DietRaw" operation="set" value="100"/>
+	</insertAfter>
+	<append xpath="/buffs">
+		<buff name="buffProcessNutrition" hidden="true">
+			<stack_type value="ignore"/>
+			<duration value="0.5"/>
+			<!-- runs briefly when you eat -->
+			<!-- 🥩 Add Protein if food provides it -->
+			<effect_group>
+				<requirement name="CVarCompare" cvar="foodProteinAmount" operation="GT" value="0"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="ProteinRaw" operation="add" value="@foodProteinAmount"/>
+			</effect_group>
+			<!-- 🍞 Add Carbs if food provides it -->
+			<effect_group>
+				<requirement name="CVarCompare" cvar="foodCarbsAmount" operation="GT" value="0"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="CarbsRaw" operation="add" value="@foodCarbsAmount"/>
+			</effect_group>
+			<!-- 🧈 Add Fat if food provides it -->
+			<effect_group>
+				<requirement name="CVarCompare" cvar="foodFatAmount" operation="GT" value="0"/>
+				<triggered_effect trigger="onSelfBuffStart" action="ModifyCVar" cvar="FatRaw" operation="add" value="@foodFatAmount"/>
+			</effect_group>
+			<!-- 📊 Update DietRaw automatically if desired -->
+			<effect_group>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DietRaw" operation="add" value="1"/>
+			</effect_group>
+		</buff>
+		<!-- Nutrition drain over time -->
+		<buff name="nutritionDrain" hidden="true" remove_on_death="false">
+			<stack_type value="ignore"/>
+			<duration value="5"/>
+			<!-- run less often -->
+			<update_rate value="5"/>
+			<!-- every 5 seconds instead of every second -->
+			<effect_group>
+				<!-- Walking drain much slower -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="CarbsRaw" operation="add" value="-0.1">
+					<requirement name="EntityHasMovementTag" tags="walking"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="FatRaw" operation="add" value="-0.1">
+					<requirement name="EntityHasMovementTag" tags="walking"/>
+				</triggered_effect>
+				<!-- Running drain also slower -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="CarbsRaw" operation="add" value="-0.5">
+					<requirement name="EntityHasMovementTag" tags="running"/>
+				</triggered_effect>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="FatRaw" operation="add" value="-0.3">
+					<requirement name="EntityHasMovementTag" tags="running"/>
+				</triggered_effect>
+				<!-- Protein only if carbs & fat are super low -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="ProteinRaw" operation="add" value="-1">
+					<requirement name="EntityHasMovementTag" tags="running,walking"/>
+					<requirement name="CVarCompare" cvar="CarbsRaw" operation="LT" value="10"/>
+					<requirement name="CVarCompare" cvar="FatRaw" operation="LT" value="10"/>
+				</triggered_effect>
+				<!-- Clamps -->
+				<!-- Clamp ProteinRaw between 0 and 100 -->
+				<triggered_effect trigger="onSelfBuffUpdate">
+					<!-- If ProteinRaw > 100, set to 100 -->
+					<requirement name="CVarCompare" cvar="ProteinRaw" operation="GT" value="100"/>
+					<action name="ModifyCVar" cvar="ProteinRaw" operation="set" value="100"/>
+					
+					<!-- If ProteinRaw < 0, set to 0 -->
+					<requirement name="CVarCompare" cvar="ProteinRaw" operation="LT" value="0"/>
+					<action name="ModifyCVar" cvar="ProteinRaw" operation="set" value="0"/>
+				</triggered_effect>
+
+				<!-- Clamp CarbsRaw between 0 and 100 -->
+				<triggered_effect trigger="onSelfBuffUpdate">
+					<requirement name="CVarCompare" cvar="CarbsRaw" operation="GT" value="100"/>
+					<action name="ModifyCVar" cvar="CarbsRaw" operation="set" value="100"/>
+					
+					<requirement name="CVarCompare" cvar="CarbsRaw" operation="LT" value="0"/>
+					<action name="ModifyCVar" cvar="CarbsRaw" operation="set" value="0"/>
+				</triggered_effect>
+
+				<!-- Clamp FatRaw between 0 and 100 -->
+				<triggered_effect trigger="onSelfBuffUpdate">
+					<requirement name="CVarCompare" cvar="FatRaw" operation="GT" value="100"/>
+					<action name="ModifyCVar" cvar="FatRaw" operation="set" value="100"/>
+					
+					<requirement name="CVarCompare" cvar="FatRaw" operation="LT" value="0"/>
+					<action name="ModifyCVar" cvar="FatRaw" operation="set" value="0"/>
+				</triggered_effect>
+			</effect_group>
+		</buff>
+		<!-- Tracker that normalizes the raw stats -->
+		<buff name="buffNutritionTracker" hidden="true" remove_on_death="false">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group>
+				<!-- Normalized Protein -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DisplayProteinNutrition" operation="set" value="@ProteinRaw"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DisplayProteinNutrition" operation="divide" value="100"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DisplayProteinNutrition" operation="set" value="1">
+					<requirement name="CVarCompare" cvar="DisplayProteinNutrition" operation="GT" value="1"/>
+				</triggered_effect>
+				<!-- Normalized Carbs -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DisplayCarbsNutrition" operation="set" value="@CarbsRaw"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DisplayCarbsNutrition" operation="divide" value="100"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DisplayCarbsNutrition" operation="set" value="1">
+					<requirement name="CVarCompare" cvar="DisplayCarbsNutrition" operation="GT" value="1"/>
+				</triggered_effect>
+				<!-- Normalized Fat -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DisplayFatNutrition" operation="set" value="@FatRaw"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DisplayFatNutrition" operation="divide" value="100"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DisplayFatNutrition" operation="set" value="1">
+					<requirement name="CVarCompare" cvar="DisplayFatNutrition" operation="GT" value="1"/>
+				</triggered_effect>
+			</effect_group>
+		</buff>
+		<buff name="buffDietTracker" hidden="true" remove_on_death="false">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<effect_group>
+				<!-- Normalized Diet -->
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DisplayDietNutrition" operation="set" value="@DietRaw"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DisplayDietNutrition" operation="divide" value="100"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DisplayDietNutrition" operation="set" value="1">
+					<requirement name="CVarCompare" cvar="DisplayDietNutrition" operation="GT" value="1"/>
+				</triggered_effect>
+			</effect_group>
+		</buff>
+		<buff name="buffHungerDrain" hidden="true" remove_on_death="false">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<update_rate value="300"/>
+			<!-- every 5 minutes -->
+			<effect_group>
+				<!-- Base hunger drain scaled for 5 minutes -->
+				<passive_effect name="FoodChangeOT" operation="base_subtract" value="2.5"/>
+			</effect_group>
+			<effect_group>
+				<!-- Optional: increase hunger drain while running/driving, scaled -->
+				<passive_effect name="FoodChangeOT" operation="base_subtract" value="3.0" tags="running"/>
+				<passive_effect name="FoodChangeOT" operation="base_subtract" value="1.5" tags="driving"/>
+			</effect_group>
+		</buff>
+		<buff name="buffHungerFromNutrition" hidden="true" remove_on_death="false">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<!-- continuous -->
+			<update_rate value="60"/>
+			<!-- how often to tick, here every 60 seconds -->
+			<!-- Slight hunger increase if any nutrition < 30 -->
+			<effect_group>
+				<requirements compare_type="or">
+					<requirement name="CVarCompare" cvar="ProteinRaw" operation="LT" value="30"/>
+					<requirement name="CVarCompare" cvar="CarbsRaw" operation="LT" value="30"/>
+					<requirement name="CVarCompare" cvar="FatRaw" operation="LT" value="30"/>
+				</requirements>
+				<passive_effect name="FoodChangeOT" operation="base_subtract" value="1"/>
+			</effect_group>
+			<!-- Bigger hunger increase if any nutrition < 15 -->
+			<effect_group>
+				<requirements compare_type="or">
+					<requirement name="CVarCompare" cvar="ProteinRaw" operation="LT" value="15"/>
+					<requirement name="CVarCompare" cvar="CarbsRaw" operation="LT" value="15"/>
+					<requirement name="CVarCompare" cvar="FatRaw" operation="LT" value="15"/>
+				</requirements>
+				<passive_effect name="FoodChangeOT" operation="base_subtract" value="2"/>
+			</effect_group>
+		</buff>
+		<buff name="buffDietEffect" hidden="true" remove_on_death="false">
+			<stack_type value="ignore"/>
+			<duration value="0"/>
+			<update_rate value="1"/>
+			<!-- Balanced diet bonus (DietLevel 4 or 5) -->
+			<effect_group>
+				<requirement name="CVarCompare" cvar="DietLevel" operation="GTE" value="4"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffWellFed"/>
+			</effect_group>
+			<!-- Poor diet penalty (DietLevel 1 or less) -->
+			<effect_group>
+				<requirement name="CVarCompare" cvar="DietLevel" operation="LTE" value="1"/>
+				<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffMalnourished"/>
+			</effect_group>
+		</buff>
+	</append>
+	<!-- Make sure buffs are always applied -->
+	<append xpath="//buff[@name='buffStatusCheck01']">
+		<effect_group>
+			<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffHungerFromNutrition"/>
+			<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffDietEffect"/>
+			<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffNutritionTracker"/>
+			<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="buffDietTracker"/>
+			<triggered_effect trigger="onSelfBuffUpdate" action="AddBuff" buff="nutritionDrain"/>
+		</effect_group>
+		<!-- Diet levels now set a separate CVar: DietLevel -->
+		<effect_group name="Diet Level 1">
+			<requirements compare_type="or">
+				<requirement name="CVarCompare" cvar="ProteinRaw" operation="LTE" value="20"/>
+				<requirement name="CVarCompare" cvar="CarbsRaw" operation="LTE" value="20"/>
+				<requirement name="CVarCompare" cvar="FatRaw" operation="LTE" value="20"/>
+			</requirements>
+			<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DietLevel" operation="set" value="1"/>
+		</effect_group>
+		<effect_group name="Diet Level 2">
+			<requirements compare_type="or">
+				<requirement name="CVarCompare" cvar="ProteinRaw" operation="LTE" value="40"/>
+				<requirement name="CVarCompare" cvar="CarbsRaw" operation="LTE" value="40"/>
+				<requirement name="CVarCompare" cvar="FatRaw" operation="LTE" value="40"/>
+			</requirements>
+			<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DietLevel" operation="set" value="2">
+				<requirement name="CVarCompare" cvar="ProteinRaw" operation="GT" value="20"/>
+				<requirement name="CVarCompare" cvar="CarbsRaw" operation="GT" value="20"/>
+				<requirement name="CVarCompare" cvar="FatRaw" operation="GT" value="20"/>
+			</triggered_effect>
+		</effect_group>
+		<effect_group name="Diet Level 3">
+			<requirements compare_type="or">
+				<requirement name="CVarCompare" cvar="ProteinRaw" operation="LTE" value="60"/>
+				<requirement name="CVarCompare" cvar="CarbsRaw" operation="LTE" value="60"/>
+				<requirement name="CVarCompare" cvar="FatRaw" operation="LTE" value="60"/>
+			</requirements>
+			<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DietLevel" operation="set" value="3">
+				<requirement name="CVarCompare" cvar="ProteinRaw" operation="GT" value="40"/>
+				<requirement name="CVarCompare" cvar="CarbsRaw" operation="GT" value="40"/>
+				<requirement name="CVarCompare" cvar="FatRaw" operation="GT" value="40"/>
+			</triggered_effect>
+		</effect_group>
+		<effect_group name="Diet Level 4">
+			<requirements compare_type="or">
+				<requirement name="CVarCompare" cvar="ProteinRaw" operation="LTE" value="80"/>
+				<requirement name="CVarCompare" cvar="CarbsRaw" operation="LTE" value="80"/>
+				<requirement name="CVarCompare" cvar="FatRaw" operation="LTE" value="80"/>
+			</requirements>
+			<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DietLevel" operation="set" value="4">
+				<requirement name="CVarCompare" cvar="ProteinRaw" operation="GT" value="60"/>
+				<requirement name="CVarCompare" cvar="CarbsRaw" operation="GT" value="60"/>
+				<requirement name="CVarCompare" cvar="FatRaw" operation="GT" value="60"/>
+			</triggered_effect>
+		</effect_group>
+		<effect_group name="Diet Level 5">
+			<triggered_effect trigger="onSelfBuffUpdate" action="ModifyCVar" cvar="DietLevel" operation="set" value="5">
+				<requirement name="CVarCompare" cvar="ProteinRaw" operation="GTE" value="80"/>
+				<requirement name="CVarCompare" cvar="CarbsRaw" operation="GTE" value="80"/>
+				<requirement name="CVarCompare" cvar="FatRaw" operation="GTE" value="80"/>
+			</triggered_effect>
+		</effect_group>
+	</append>
+</configs>

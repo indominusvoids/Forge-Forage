@@ -1,0 +1,21 @@
+<xml>
+	<append xpath="/recipes">
+		<recipe name="modScavengersBeltUpgrade1" count="1" craft_time="30" experience="5">
+			<ingredient name="resourceLeather" count="4"/>
+			<ingredient name="resourceForgedIron" count="2"/>
+			<result name="modScavengersBeltUpgrade1"/>
+		</recipe>
+
+		<recipe name="modScavengersBeltUpgrade2" count="1" craft_time="30" experience="5">
+			<ingredient name="resourceLeather" count="4"/>
+			<ingredient name="resourceForgedIron" count="2"/>
+			<result name="modScavengersBeltUpgrade2"/>
+		</recipe>
+		
+		<recipe name="modScavengersBeltUpgrade3" count="1" craft_time="30" experience="5">
+			<ingredient name="resourceLeather" count="4"/>
+			<ingredient name="resourceForgedIron" count="2"/>
+			<result name="modScavengersBeltUpgrade3"/>
+		</recipe>
+	</append>
+</xml>

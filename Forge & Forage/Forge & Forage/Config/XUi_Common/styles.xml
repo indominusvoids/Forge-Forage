@@ -1,0 +1,62 @@
+<xSteel>
+	<!--
+	CREDITED TO:
+	0xSteel (Steel UI)
+	-->
+	<set xpath="//style[@name='itemStack']">
+		<style_entry name="select_color" value="200,200,200"/>
+		<style_entry name="press_color" value="200,200,200"/>
+		<style_entry name="final_pressed_color" value="200,200,200"/>
+		<style_entry name="background_color" value="[mediumGrey]"/>
+		<style_entry name="highlight_color" value="200,200,200"/>
+		<style_entry name="holding_color" value="255,255,255"/>
+		<style_entry name="width" value="75"/>
+		<style_entry name="height" value="75"/>
+		<style_entry name="hover_icon_grow" value="1.5" />
+		<style_entry name="on_press" value="true"/>
+		<style_entry name="sound_volume" value="0.75"/>
+		<style_entry name="pickup_sound" value="[pickup_click]"/>
+		<style_entry name="place_sound" value="[place_click]"/>
+	</set>
+	<append xpath="styles">
+		<style name="style_label_normal" type="label">
+			<style_entry name="font_size" value="22"/>
+			<style_entry name="color" value="[white]"/>
+			<style_entry name="crispness" value="OnDesktop"/>
+			<style_entry name="effect" value="outline"/>
+			<style_entry name="effect_distance" value="1,1"/>
+			<style_entry name="effect_color" value="20,20,20,230"/>
+		</style>
+		<style name="style_label_outline" type="label">
+			<style_entry name="font_size" value="22"/>
+			<style_entry name="color" value="[white]"/>
+			<style_entry name="crispness" value="OnDesktop"/>
+			<style_entry name="effect" value="Outline8"/>
+			<style_entry name="effect_distance" value="1,1"/>
+			<style_entry name="effect_color" value="20,20,20,230"/>
+		</style>
+		<style name="style_label_statbar1" type="label">
+			<style_entry name="font_size" value="20"/>
+			<style_entry name="justify" value="center"/>
+			<style_entry name="pos" value="5,-15"/>
+		</style>
+		<style name="style_label_statbar2" type="label">
+			<style_entry name="font_size" value="15"/>
+			<style_entry name="justify" value="left"/>
+			<style_entry name="pos" value="108,-15"/>
+			<style_entry name="color" value="200,200,200"/>
+		</style>
+		<style name="style_statbar_bg1" type="sprite">
+			<style_entry name="color" value="0,0,0,230"/>
+			<style_entry name="sprite" value="ui_statbar_bg"/>
+		</style>
+		<style name="style_statbar_shadow" type="sprite">
+			<style_entry name="sprite" value="ui_statbar_bg_shadow"/>
+			<style_entry name="color" value="0,0,0"/>
+			<style_entry name="height" value="32"/>
+			<style_entry name="width" value="176"/>
+			<style_entry name="pos" value="-3,2"/>
+		</style>
+	</append>
+	<!-- Credits stop here -->
+</xSteel>

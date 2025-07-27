@@ -1,0 +1,6 @@
+D:\SteamLibrary\steamapps\common\7 Days To Die\Mods\Forge_&_Forage\Forge_and_Forage.dll
+D:\SteamLibrary\steamapps\common\7 Days To Die\Mods\Forge_&_Forage\Forge_and_Forage.pdb
+C:\Users\salam\source\repos\Forge & Forage\Forge & Forage\obj\Debug\Forge_and_Forage.csproj.AssemblyReference.cache
+C:\Users\salam\source\repos\Forge & Forage\Forge & Forage\obj\Debug\Forge_and_Forage.csproj.CoreCompileInputs.cache
+C:\Users\salam\source\repos\Forge & Forage\Forge & Forage\obj\Debug\Forge_and_Forage.dll
+C:\Users\salam\source\repos\Forge & Forage\Forge & Forage\obj\Debug\Forge_and_Forage.pdb
